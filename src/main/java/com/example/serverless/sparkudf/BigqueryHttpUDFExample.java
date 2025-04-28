@@ -17,14 +17,14 @@ public class BigqueryHttpUDFExample {
                 .appName("Serverless Demo")
                 .config("spark.sql.adaptive.enabled", "false")
                 .config("spark.default.parallelism", "10")
-				.master("local[*]")
-				.config("spark.hadoop.fs.gs.project.id", "cf-data-analytics")
-				.config("spark.hadoop.google.cloud.auth.service.account.enable", "true")
-				.config("spark.hadoop.fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
-				.config(
-						"spark.hadoop.google.cloud.auth.service.account.json.keyfile",
-						"/home/user/IdeaProjects/sparkudf/spark-webserver-demo-f455e9845281.json"
-				)
+//				.master("local[*]")
+//				.config("spark.hadoop.fs.gs.project.id", "cf-data-analytics")
+//				.config("spark.hadoop.google.cloud.auth.service.account.enable", "true")
+//				.config("spark.hadoop.fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
+//				.config(
+//						"spark.hadoop.google.cloud.auth.service.account.json.keyfile",
+//						"/home/user/IdeaProjects/sparkudf/spark-webserver-demo-f455e9845281.json"
+//				)
                 .getOrCreate();
 
 		spark.udf().register("getHttpResponse", new HttpServiceUDF(), DataTypes.StringType);
