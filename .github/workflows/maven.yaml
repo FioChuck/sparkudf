@@ -1,0 +1,39 @@
+name: Maven Package and Deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Repo to Runner
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 for x64
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: x64
+
+      - name: Maven Package
+        run: mvn clean package -Pcluster-deploy -B -e --file pom.xml
+
+      - name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v2"
+        with:
+          create_credentials_file: true
+          workload_identity_provider: ${{secrets.IDENTITY_PROVIDER}}
+          service_account: ${{secrets.SA}}
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: "Save JARs to GCS using gcloud"
+        run: gcloud storage cp "target/*.jar" "gs://cf-spark-jobs-temp/jars/"
