@@ -79,7 +79,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.serverless.BigqueryHttpUDFExample</mainClass>
+                            <mainClass>com.chasf.serverless.BigqueryHttpUDFExample</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

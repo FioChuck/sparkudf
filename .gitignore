@@ -1,5 +1,6 @@
 spark-webserver-demo-f455e9845281.json
 src/main/resources/cacerts.simple
+gcloud.sh
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
