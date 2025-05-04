@@ -1,4 +1,4 @@
-package com.example.serverless.sparkudf; // Updated package
+package com.example.serverless.sparkudf;
 
 import com.example.serverless.sparkudf.WebhookService;
 import org.apache.spark.sql.api.java.UDF0;
