@@ -1,7 +1,7 @@
 gcloud dataproc batches submit \
 --project spark-webserver-demo \
 --region us-central1 spark \
---batch batch-4 \
+--batch batch-5 \
 --jar gs://cf-spark-jobs-temp/jars/sparkudf-1.0.0-jar-with-dependencies.jar \
 --files gs://java-resources/cacerts \
 --properties spark.driver.extraJavaOptions="-Djavax.net.ssl.trustStore=cacerts -Djavax.net.ssl.trustStorePassword=changeit"
@@ -19,4 +19,3 @@ gcloud dataproc batches submit spark \
 --subnet=projects/gcp-d4-network-npe/regions/us-east4/subnetworks/npe-east4-daci-shared-subnet-1 \
 --service-account=svc-daci-connexio-dev@gcp-daci-pltfm-dev.iam.gserviceaccount.com \
 --class=com.example.SparkBqWriter.SparkBqToMongo
-

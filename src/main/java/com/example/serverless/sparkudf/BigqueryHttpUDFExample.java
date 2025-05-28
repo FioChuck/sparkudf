@@ -42,12 +42,11 @@ public class BigqueryHttpUDFExample {
                 .groupBy(functions.col("title"), functions.col("month"))
                 .agg(functions.sum("views").alias("total_views"))
                 .orderBy(functions.col("total_views").desc())
-                .limit(10);
+                .limit(1000);
 
         aggregatedDF.show();
 
 		aggregatedDF.repartition(4);
-
 
 
 		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("http_response",
