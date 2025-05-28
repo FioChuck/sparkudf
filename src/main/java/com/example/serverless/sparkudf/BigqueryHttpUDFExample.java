@@ -17,15 +17,15 @@ public class BigqueryHttpUDFExample {
         SparkSession spark = SparkSession.builder()
                 .appName("Serverless Demo")
 //				.master("local[*]")
-                .config("spark.sql.adaptive.enabled", "false")
-                .config("spark.default.parallelism", "2000")
+//                .config("spark.sql.adaptive.enabled", "false")
+//                .config("spark.default.parallelism", "2000")
 //				.config("spark.eventLog.enabled", "true")
 //				.config("spark.eventLog.dir", "gs://cf-phs/spark-job-history")
 //				.config("spark.hadoop.fs.gs.project.id", "cf-data-analytics")
 //				.config("spark.hadoop.google.cloud.auth.service.account.enable", "true")
-				.config("spark.hadoop.fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
-				.config("spark.hadoop.fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
-				.config("spark.hadoop.fs.gs.auth.type", "APPLICATION_DEFAULT")
+//				.config("spark.hadoop.fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
+//				.config("spark.hadoop.fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
+//				.config("spark.hadoop.fs.gs.auth.type", "APPLICATION_DEFAULT")
                 .getOrCreate();
 
 		spark.udf().register("getHttpResponse", new HttpServiceUDF(), DataTypes.StringType);
@@ -44,19 +44,15 @@ public class BigqueryHttpUDFExample {
                 .orderBy(functions.col("total_views").desc())
                 .limit(1000);
 
-        aggregatedDF.show();
-
-		aggregatedDF.repartition(14);
-
+        aggregatedDF.repartition(200);
+		aggregatedDF.show();
 
 		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("http_response",
 				callUDF("getHttpResponse"));
 
 		dfWithHttpResponse.show(false);
 
-
 		System.out.print("done");
-
 
 	}
 }
