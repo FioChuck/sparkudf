@@ -46,18 +46,11 @@ public class BigqueryHttpUDFExample {
 
         aggregatedDF.show();
 
-		List<Row> data = Arrays.asList(
-				org.apache.spark.sql.RowFactory.create(1, "Google"),
-				org.apache.spark.sql.RowFactory.create(2, "Microsoft"),
-				org.apache.spark.sql.RowFactory.create(3, "Apple")
-		);
-		org.apache.spark.sql.types.StructType schema = DataTypes.createStructType(Arrays.asList(
-				DataTypes.createStructField("id", DataTypes.IntegerType, false),
-				DataTypes.createStructField("value", DataTypes.StringType, false)
-		));
-		Dataset<Row> df = spark.createDataFrame(data, schema);
+		aggregatedDF.repartition(4);
 
-		Dataset<Row> dfWithHttpResponse = df.withColumn("http_response",
+
+
+		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("http_response",
 				callUDF("getHttpResponse"));
 
 		dfWithHttpResponse.show(false);
