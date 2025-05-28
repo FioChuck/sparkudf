@@ -19,8 +19,8 @@ public class BigqueryHttpUDFExample {
 //				.master("local[*]")
                 .config("spark.sql.adaptive.enabled", "false")
                 .config("spark.default.parallelism", "2000")
-				.config("spark.eventLog.enabled", "true")
-				.config("spark.eventLog.dir", "gs://cf-phs/spark-job-history")
+//				.config("spark.eventLog.enabled", "true")
+//				.config("spark.eventLog.dir", "gs://cf-phs/spark-job-history")
 //				.config("spark.hadoop.fs.gs.project.id", "cf-data-analytics")
 //				.config("spark.hadoop.google.cloud.auth.service.account.enable", "true")
 				.config("spark.hadoop.fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
@@ -46,7 +46,7 @@ public class BigqueryHttpUDFExample {
 
         aggregatedDF.show();
 
-		aggregatedDF.repartition(4);
+		aggregatedDF.repartition(14);
 
 
 		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("http_response",
