@@ -1,0 +1,2 @@
+resource.labels.service="dataproc.googleapis.com"
+protoPayload.request.@type="type.googleapis.com/google.cloud.dataproc.v1.CreateBatchRequest"

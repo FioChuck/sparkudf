@@ -13,8 +13,8 @@ public class WebhookService {
         BufferedReader reader = null;
 
         try {
-            URL url = new URL("https://api.ipify.org/");
-//             URL url = new URL("https://apache-http-server");
+//            URL url = new URL("https://api.ipify.org/");
+             URL url = new URL("https://apache-http-server");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
