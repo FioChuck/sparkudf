@@ -1,7 +1,7 @@
 gcloud dataproc batches submit \
 --project spark-webserver-demo \
 --region us-central1 spark \
---batch batch-10 \
+--batch batch-11 \
 --jar gs://cf-spark-jobs-temp/jars/sparkudf-1.0.0-jar-with-dependencies.jar \
 --files gs://java-resources/cacerts_demo \
 --history-server-cluster projects/spark-webserver-demo/regions/us-central1/clusters/phs \
