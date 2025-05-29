@@ -1,8 +1,8 @@
 gcloud dataproc batches submit \
 --project spark-webserver-demo \
 --region us-central1 spark \
---batch batch-11 \
---jar gs://cf-spark-jobs-temp/jars/sparkudf-1.0.0-jar-with-dependencies.jar \
+--batch baseline \
+--jar gs://cf-spark-jobs-temp/jars/sparkudf-1.1.0-jar-with-dependencies.jar \
 --files gs://java-resources/cacerts_demo \
 --history-server-cluster projects/spark-webserver-demo/regions/us-central1/clusters/phs \
 --properties spark.driver.extraJavaOptions="-Djavax.net.ssl.trustStore=cacerts_demo -Djavax.net.ssl.trustStorePassword=changeit",spark.executor.extraJavaOptions="-Djavax.net.ssl.trustStore=cacerts -Djavax.net.ssl.trustStorePassword=changeit"

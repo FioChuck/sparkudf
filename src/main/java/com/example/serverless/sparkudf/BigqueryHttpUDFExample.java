@@ -45,7 +45,8 @@ public class BigqueryHttpUDFExample {
                 .limit(1000);
 
         aggregatedDF.repartition(200);
-		aggregatedDF.show();
+
+		aggregatedDF = aggregatedDF.checkpoint();
 
 		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("http_response",
 				callUDF("getHttpResponse"));
