@@ -4,6 +4,7 @@ import org.apache.spark.sql.functions;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.api.java.JavaSparkContext;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -11,10 +12,12 @@ import java.util.List;
 
 import static org.apache.spark.sql.functions.callUDF;
 
+
 public class BigqueryHttpUDFExample {
     public static void main(String[] args) throws IOException {
 
         SparkSession spark = SparkSession.builder()
+
                 .appName("Serverless Demo")
 //				.master("local[*]")
 //                .config("spark.sql.adaptive.enabled", "false")
@@ -27,6 +30,10 @@ public class BigqueryHttpUDFExample {
 //				.config("spark.hadoop.fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
 //				.config("spark.hadoop.fs.gs.auth.type", "APPLICATION_DEFAULT")
                 .getOrCreate();
+
+		JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
+		jsc.setCheckpointDir("gs://cf-spark-checkpointing");
+
 
 		spark.udf().register("getHttpResponse", new HttpServiceUDF(), DataTypes.StringType);
 
