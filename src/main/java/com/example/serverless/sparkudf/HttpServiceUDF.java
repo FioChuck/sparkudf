@@ -15,7 +15,6 @@ public class HttpServiceUDF implements UDF0<String> {
                 ", Partition: " + tc.partitionId() +
                 ", Task Attempt: " + tc.taskAttemptId();
 
-        // This will print to the executor's stdout log
         System.out.println(executorLog);
 
         WebhookService service = new WebhookService();
