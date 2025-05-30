@@ -21,7 +21,6 @@ public class BigqueryHttpUDFExample {
                 .appName("Serverless Demo")
 //				.master("local[*]")
 //                .config("spark.sql.adaptive.enabled", "false")
-//                .config("spark.default.parallelism", "2000")
 //				.config("spark.eventLog.enabled", "true")
 //				.config("spark.eventLog.dir", "gs://cf-phs/spark-job-history")
 //				.config("spark.hadoop.fs.gs.project.id", "cf-data-analytics")
@@ -29,15 +28,13 @@ public class BigqueryHttpUDFExample {
 //				.config("spark.hadoop.fs.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem")
 //				.config("spark.hadoop.fs.AbstractFileSystem.gs.impl", "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
 //				.config("spark.hadoop.fs.gs.auth.type", "APPLICATION_DEFAULT")
-                .getOrCreate();
+//				.config("spark.default.parallelism", "2000")
+				.getOrCreate();
 
-		JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
-		jsc.setCheckpointDir("gs://cf-spark-checkpointing");
-
+		spark.conf().set("temporaryGcsBucket", "gs://cf-bq-temp");
 
 		spark.udf().register("getHttpResponse", new HttpServiceUDF(), DataTypes.StringType);
 
-//		System.out.print("done");
 
 		Dataset<Row> aggregatedDF = spark.read()
                 .format("bigquery")
@@ -51,16 +48,18 @@ public class BigqueryHttpUDFExample {
                 .orderBy(functions.col("total_views").desc())
                 .limit(100000);
 
-        aggregatedDF.repartition(200);
-
-		aggregatedDF = aggregatedDF.checkpoint();
-
-		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("http_response",
+		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("udf_response",
 				callUDF("getHttpResponse"));
 
-		dfWithHttpResponse.show(false);
+		dfWithHttpResponse.show(5);
 
-		System.out.print("done");
+		dfWithHttpResponse.printSchema();
+
+		dfWithHttpResponse.write()
+				.format("bigquery")
+				.option("table", "spark-webserver-demo.wiki_results.top_pages")
+				.mode("Overwrite")
+				.save();
 
 	}
 }

@@ -10,14 +10,22 @@ public class HttpServiceUDF implements UDF0<String> {
     public String call() throws Exception {
 
         TaskContext tc = TaskContext.get();
+        String executorLog = "";
 
-        String executorLog = "UDF EXECUTION CONFIRMED -> Stage: " + tc.stageId() +
-                ", Partition: " + tc.partitionId() +
-                ", Task Attempt: " + tc.taskAttemptId();
+        if (tc != null) {
+            executorLog = " - LOGS: UDF EXECUTION CONFIRMED -> Stage: " + tc.stageId() +
+                    ", Partition: " + tc.partitionId() +
+                    ", Task Attempt: " + tc.taskAttemptId();
+        } else {
+
+            executorLog = " - LOGS: TaskContext is not available.";
+        }
 
         System.out.println(executorLog);
 
         WebhookService service = new WebhookService();
-        return service.getPublicIpAddress();
+        String ip = service.getPublicIpAddress();
+        String output = ip.concat(executorLog);
+        return output;
     }
 }
