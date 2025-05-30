@@ -46,7 +46,7 @@ public class BigqueryHttpUDFExample {
                 .groupBy(functions.col("title"), functions.col("month"))
                 .agg(functions.sum("views").alias("total_views"))
                 .orderBy(functions.col("total_views").desc())
-                .limit(100000);
+                .limit(10000);
 
 		Dataset<Row> dfWithHttpResponse = aggregatedDF.withColumn("udf_response",
 				callUDF("getHttpResponse"));

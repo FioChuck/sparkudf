@@ -8,7 +8,7 @@ import java.net.URL;
 public class WebhookService {
 
     public String getPublicIpAddress() {
-        String ip = null;
+        String ip = "";
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 
